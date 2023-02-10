@@ -8,6 +8,8 @@ jobs:
   say-hello:
     docker:
       - image: circleci/node:13.8.0
+    environment:
+      my_env_name: "louise-env"
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -15,19 +17,15 @@ jobs:
       - run:
           name: "Say hello"
           command: "echo Hello!"
-
-  print-world:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
       - run:
           name: "say world"
           command: "echo World!"
+      - run: echo $my_env_name
+
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
       - say-hello
-      - print-world
