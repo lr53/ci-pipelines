@@ -16,10 +16,10 @@ jobs:
       - checkout
       - run:
           name: "Say hello"
-          command: "echo Hello!"
+          command: "pwd"
       - run:
           name: "say world"
-          command: "echo World!"
+          command: "ls"
       - run: echo $my_env_name
       
   save_hello_world_output:
