@@ -33,13 +33,24 @@ jobs:
       - run: echo "hello world" > output.txt
       - persist_to_workspace:
           root: /tmp/workspace
-          paths: output
+          paths: output.txt
           
   print_output_file:
+    docker:
+        - image: circleci/node:13.8.0
+    environment:
+      my_env_name: "louise-env"
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello!"
     steps:
       - attach_worskpace:
           at: /tmp/worskpace
-      - run: cat output.txt
+      - run: cat /tmp/workspace/output.txt
   
   
 
@@ -51,4 +62,6 @@ workflows:
     jobs:
       - say-hello
       - save_hello_world_output
-      - print_output_file
+      - print_output_file:
+          requires:
+            - save_hello_world_output
